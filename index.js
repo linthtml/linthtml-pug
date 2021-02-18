@@ -15,14 +15,45 @@ module.exports = function parse(code) {
 
   const new_ast = walk(ast, null, (node, replace) => {
     node.type = node.type.toLowerCase();
+    node.parent = null;
+
     node.children = [];
+
     const node_start = {
       line: node.line,
       column: node.column
     };
 
-    if (node.block && node.block.nodes) {
-      node.children = node.block.nodes;
+    node.loc = {
+      start: node_start
+    };
+    if (node.type === "block") {
+      //   node.loc = {
+      //     start: {
+      //       line: node.line,
+      //       column: node.column
+      //     },
+      //     end: get_node_end_position(node)
+      //   };
+      node.loc = {
+        start: {
+          line: node.line,
+          column: 0
+        },
+        end: {
+          line: node.line,
+          column: 0
+        }
+      };
+      node.children = node.nodes;
+      delete node.nodes;
+    }
+
+    if (node.block && node.block.children) {
+      node.children = node.block.children.map(child => ({
+        ...child,
+        parent: node
+      }));
       delete node.block;
     }
 
@@ -31,9 +62,6 @@ module.exports = function parse(code) {
       node.attributes = node.attrs.map(attribute => to_attribute_node(attribute, lines));
       delete node.attrs;
     }
-    node.loc = {
-      start: node_start
-    };
 
     if (node.type === "text") {
       node = to_text_node(node);
@@ -46,16 +74,7 @@ module.exports = function parse(code) {
     if (node.type === "tag") {
       node = to_tag_node(node, lines);
     }
-
-    // if (node.type !== "Block") {
-    //   node.loc = {
-    //     start: {
-    //       line: node.line,
-    //       column: node.column
-    //     },
-    //     end: get_node_end_position(node)
-    //   };
-    // }
+    node.indent = "";
 
     return replace(node);
   });
