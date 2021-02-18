@@ -13,7 +13,7 @@ module.exports = function parse(code) {
 
   const ast = parser(lexer(code));
 
-  return walk(ast, null, (node, replace) => {
+  const new_ast = walk(ast, null, (node, replace) => {
     node.type = node.type.toLowerCase();
     node.children = [];
     const node_start = {
@@ -59,4 +59,8 @@ module.exports = function parse(code) {
 
     return replace(node);
   });
+
+  return new_ast.type === "block"
+    ? new_ast.children
+    : [new_ast];
 };
