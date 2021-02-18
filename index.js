@@ -14,6 +14,7 @@ module.exports = function parse(code) {
   const ast = parser(lexer(code));
 
   return walk(ast, null, (node, replace) => {
+    node.type = node.type.toLowerCase();
     node.children = [];
     const node_start = {
       line: node.line,
@@ -34,15 +35,15 @@ module.exports = function parse(code) {
       start: node_start
     };
 
-    if (node.type === "Text") {
+    if (node.type === "text") {
       node = to_text_node(node);
     }
 
-    if (node.type === "Doctype") {
+    if (node.type === "doctype") {
       node = to_doctype_node(node, lines);
     }
 
-    if (node.type === "Tag") {
+    if (node.type === "tag") {
       node = to_tag_node(node, lines);
     }
 
