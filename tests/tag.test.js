@@ -4,7 +4,7 @@ const parse = require("../index");
 describe("Tags", () => {
   test("tag with no children", () => {
     const src = "div";
-    const { nodes } = parse(src);
+    const nodes = parse(src);
 
     expect(nodes).toHaveLength(1);
 
@@ -40,7 +40,7 @@ describe("Tags", () => {
 
   test("Implicite div", () => {
     const src = ".foo";
-    const { nodes } = parse(src);
+    const nodes = parse(src);
 
     expect(nodes).toHaveLength(1);
 
@@ -84,7 +84,7 @@ describe("Tags", () => {
       "  checked",
       ")"
     ].join("\n");
-    const { nodes } = parse(src);
+    const nodes = parse(src);
 
     expect(nodes).toHaveLength(1);
 
@@ -121,7 +121,7 @@ describe("Tags", () => {
 
   test("Tag with text child", () => {
     const src = "p Lorem ipsum dolor sit amet, consectetur adipiscing elit";
-    const { nodes } = parse(src);
+    const nodes = parse(src);
 
     expect(nodes).toHaveLength(1);
 
@@ -144,7 +144,7 @@ describe("Tags", () => {
     });
 
     expect(p.children).toHaveLength(1);
-    expect(p.children[0].type).toEqual("Text"); // Text content extractions is tested in the file text.test.js
+    expect(p.children[0].type).toEqual("text"); // Text content extractions is tested in the file text.test.js
 
     expect(p.loc).toEqual({
       start: {
@@ -164,7 +164,7 @@ describe("Tags", () => {
       "  li"
     ].join("\n");
 
-    const { nodes } = parse(src);
+    const nodes = parse(src);
 
     expect(nodes).toHaveLength(1);
 
@@ -208,7 +208,7 @@ describe("Tags", () => {
       "    li"
     ].join("\n");
 
-    const { nodes } = parse(src);
+    const nodes = parse(src);
 
     expect(nodes).toHaveLength(1);
 
@@ -233,6 +233,7 @@ describe("Tags", () => {
 
     expect(div.children).toHaveLength(1);
     expect(div.children[0].children).toHaveLength(1);
+    expect(div.children[0]).toHaveProperty("parent", div);
 
     expect(div.loc).toEqual({
       start: {

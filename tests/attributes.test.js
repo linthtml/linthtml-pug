@@ -5,7 +5,7 @@ describe("Attributes extractions", function() {
   describe("Simple attributes", () => {
     test("", () => {
       const src = "a(href='//google.com') Google";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -62,7 +62,7 @@ describe("Attributes extractions", function() {
 
     test("", () => {
       const src = "a(class='button' href='//google.com') Google";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -153,7 +153,7 @@ describe("Attributes extractions", function() {
 
     test("", () => {
       const src = "a(class='button', href='//google.com') Google";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -252,7 +252,7 @@ describe("Attributes extractions", function() {
         "  checked",
         ")"
       ].join("\n");
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -383,7 +383,7 @@ describe("Attributes extractions", function() {
         "  }",
         "`)"
       ];
-      const { nodes } = parse(src.join("\n"));
+      const nodes = parse(src.join("\n"));
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -441,7 +441,7 @@ describe("Attributes extractions", function() {
   describe("Quoted attributes", () => {
     test("atribute name with parentheses", () => {
       const src = "div(class='div-class', (click)='play()')";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -489,7 +489,7 @@ describe("Attributes extractions", function() {
 
     test("atribute name with quotes", () => {
       const src = "div(class='div-class' '(click)'='play()')";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -539,7 +539,7 @@ describe("Attributes extractions", function() {
   describe("Attribute interpolation", () => {
     test("", () => {
       const src = "a(href='/' + url) Link";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -597,7 +597,7 @@ describe("Attributes extractions", function() {
     });
     test("", () => {
       const src = "a(href=url) Link";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -655,7 +655,7 @@ describe("Attributes extractions", function() {
     });
     test("", () => {
       const src = "button(class='btn btn-' + btnType + ' btn-' + btnSize)";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -714,7 +714,7 @@ describe("Attributes extractions", function() {
     test("", () => {
       // eslint-disable-next-line no-template-curly-in-string
       const src = "button(class=`btn btn-${btnType} btn-${btnSize}`)";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -776,7 +776,7 @@ describe("Attributes extractions", function() {
   describe("Escaped/Unescaped Attributes", () => {
     test("attribute value are escaped by default", () => {
       const src = "div(escaped='<code>')";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -789,7 +789,7 @@ describe("Attributes extractions", function() {
     });
     test("attribute value are escaped by default", () => {
       const src = "div(escaped!='<code>')";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -840,7 +840,7 @@ describe("Attributes extractions", function() {
   describe("Boolean attributes", () => {
     test("", () => {
       const src = "input(checked)";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -877,7 +877,7 @@ describe("Attributes extractions", function() {
     });
     test("", () => {
       const src = "input(checked=true)";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -934,7 +934,7 @@ describe("Attributes extractions", function() {
     });
     test("", () => {
       const src = "input(checked=false)";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -991,7 +991,7 @@ describe("Attributes extractions", function() {
     });
     test("", () => {
       const src = "input(checked=true.toString())";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -1048,7 +1048,7 @@ describe("Attributes extractions", function() {
     });
     test("", () => {
       const src = "input(checked=true && 'checked')";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -1109,7 +1109,7 @@ describe("Attributes extractions", function() {
   describe("array and object values", () => {
     test("object values", () => {
       const src = "a(style={color: 'red', background: 'green'})";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -1168,7 +1168,7 @@ describe("Attributes extractions", function() {
 
     test("array values", () => {
       const src = "a(class=['bling', 'foo'])";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -1229,7 +1229,7 @@ describe("Attributes extractions", function() {
   describe("literal forms", () => {
     test("id", () => {
       const src = "div#foo";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -1277,7 +1277,7 @@ describe("Attributes extractions", function() {
     });
     test("class", () => {
       const src = "div.foo";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);
@@ -1328,7 +1328,7 @@ describe("Attributes extractions", function() {
   describe("Complex examples", () => {
     test("Same attribute can be defnined multiple times", () => {
       const src = "a.bang(class=classes class=['bing'])";
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const { attributes } = nodes[0];
 
       expect(nodes).toHaveLength(1);

@@ -4,7 +4,7 @@ const parse = require("../index");
 describe("Text", () => {
   test("Inline text", () => {
     const src = "| Foo bar";
-    const { nodes } = parse(src);
+    const nodes = parse(src);
     const [text] = nodes;
 
     expect(nodes).toHaveLength(1);
@@ -24,7 +24,7 @@ describe("Text", () => {
 
   test("Text inside node", () => {
     const src = "p Foo bar";
-    const { nodes } = parse(src);
+    const nodes = parse(src);
     const [text] = nodes[0].children;
 
     expect(nodes).toHaveLength(1);

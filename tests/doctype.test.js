@@ -15,7 +15,7 @@ describe("Doctype", () => {
   ].forEach(type => {
     test(`${type} doctype`, () => {
       const src = `doctype ${type}`;
-      const { nodes } = parse(src);
+      const nodes = parse(src);
       const [doctype] = nodes;
 
       expect(nodes).toHaveLength(1);
@@ -36,7 +36,7 @@ describe("Doctype", () => {
 
   test("Custom doctype", () => {
     const src = "doctype html PUBLIC \"-//W3C//DTD XHTML Basic 1.1//EN\"";
-    const { nodes } = parse(src);
+    const nodes = parse(src);
     const [doctype] = nodes;
 
     expect(nodes).toHaveLength(1);
