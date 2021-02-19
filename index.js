@@ -16,7 +16,6 @@ module.exports = function parse(code) {
   const new_ast = walk(ast, null, (node, replace) => {
     node.type = node.type.toLowerCase();
     node.parent = null;
-
     node.children = [];
 
     const node_start = {
@@ -47,14 +46,6 @@ module.exports = function parse(code) {
       };
       node.children = node.nodes;
       delete node.nodes;
-    }
-
-    if (node.block && node.block.children) {
-      node.children = node.block.children.map(child => ({
-        ...child,
-        parent: node
-      }));
-      delete node.block;
     }
 
     if (node.attrs) {
