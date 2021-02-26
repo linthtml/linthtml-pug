@@ -12,11 +12,11 @@ $ npm install @linthtml/linthtml @linthtml/linthtml-pug --save-dev
 $ yarn add @linthtml/linthtml @linthtml/linthtml-pug -D
 ```
 
-Note: @linthtml/linthtml-pug requires @linthtml/linthtml>=0.7.0
+Note: `@linthtml/linthtml-pug` requires `@linthtml/linthtml>=0.7.0`
 
 ### Setup
 
-To use @linthtml/linthtml-pug, "@linthtml/linthtml-pug" must be specified as the parser in your LintHTML configuration file (see [here](#) for more detailed information).
+To use `@linthtml/linthtml-pug`, "@linthtml/linthtml-pug" must be specified as the parser in your LintHTML configuration file (see [here](#) for more detailed information).
 
 ```js
 .linthtmlrc.js
