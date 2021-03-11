@@ -7,6 +7,7 @@ const to_tag_node = require("./lib/convertors/tag");
 const to_attribute_node = require("./lib/convertors/attribute");
 const to_doctype_node = require("./lib/convertors/doctype");
 const to_text_node = require("./lib/convertors/text");
+const to_comment_node = require("./lib/convertors/comment");
 
 module.exports = function parse(code) {
   const lines = get_lines_index(code);
@@ -26,14 +27,8 @@ module.exports = function parse(code) {
     node.loc = {
       start: node_start
     };
+
     if (node.type === "block") {
-      //   node.loc = {
-      //     start: {
-      //       line: node.line,
-      //       column: node.column
-      //     },
-      //     end: get_node_end_position(node)
-      //   };
       node.loc = {
         start: {
           line: node.line,
@@ -65,6 +60,11 @@ module.exports = function parse(code) {
     if (node.type === "tag") {
       node = to_tag_node(node, lines);
     }
+
+    if (node.type === "comment" || node.type === "blockcomment") {
+      node = to_comment_node(node, lines);
+    }
+
     node.indent = "";
 
     return replace(node);
