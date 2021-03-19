@@ -65,8 +65,6 @@ module.exports = function parse(code) {
       node = to_comment_node(node, lines);
     }
 
-    node.indent = "";
-
     return replace(node);
   });
 
