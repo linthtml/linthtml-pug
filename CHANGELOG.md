@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.3.0
+
+### Feature - Return root node
+
+The parser now return the root node of the parsed code to match the format expected by LintHTML.
+
+### Feature - Add missing indent nodes
+
+Now the return AST contains text nodes with only indent chars (spaces/tabs) between the other nodes.
+The PUG parser does not extract those nodes but LintHTML uses those nodes in the `indent-*` rules.
+
 ## v0.2.0
 
 ### Feature - Comments conversion
