@@ -4,10 +4,10 @@ const parse = require("../index");
 describe("Text", () => {
   test("Inline text", () => {
     const src = "| Foo bar";
-    const nodes = parse(src);
-    const [text] = nodes;
+    const root = parse(src);
+    const [text] = root.children;
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
     expect(text.data).toEqual("Foo bar");
 
     expect(text.loc).toEqual({
@@ -24,10 +24,10 @@ describe("Text", () => {
 
   test("Text inside node", () => {
     const src = "p Foo bar";
-    const nodes = parse(src);
-    const [text] = nodes[0].children;
+    const root = parse(src);
+    const [text] = root.children[0].children;
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
 
     expect(text.data).toEqual("Foo bar");
     expect(text.loc).toEqual({

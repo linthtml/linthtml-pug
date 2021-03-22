@@ -3,6 +3,7 @@ const parser = require("pug-parser");
 const walk = require("pug-walk");
 
 const { get_lines_index } = require("./lib/utils");
+
 const to_tag_node = require("./lib/convertors/tag");
 const to_attribute_node = require("./lib/convertors/attribute");
 const to_doctype_node = require("./lib/convertors/doctype");
@@ -68,7 +69,6 @@ module.exports = function parse(code) {
     return replace(node);
   });
 
-  return new_ast.type === "block"
-    ? new_ast.children
-    : [new_ast];
+  new_ast.type = "root";
+  return new_ast;
 };

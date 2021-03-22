@@ -4,10 +4,10 @@ const parse = require("../index");
 describe("Comment", () => {
   test("one line comment", () => {
     const src = "//a simple comment";
-    const nodes = parse(src);
-    const [comment] = nodes;
+    const root = parse(src);
+    const [comment] = root.children;
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
     expect(comment.data).toEqual("a simple comment");
     expect(comment.buffer).toBeTruthy();
 
@@ -25,10 +25,10 @@ describe("Comment", () => {
 
   test("one line comment (buffer)", () => {
     const src = "//- a simple comment";
-    const nodes = parse(src);
-    const [comment] = nodes;
+    const root = parse(src);
+    const [comment] = root.children;
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
     expect(comment.data).toEqual(" a simple comment");
     expect(comment.buffer).toBeFalsy();
 
@@ -51,10 +51,10 @@ describe("Comment", () => {
       "  multiline",
       "  comment"
     ];
-    const nodes = parse(src.join("\n"));
-    const [comment] = nodes;
+    const root = parse(src.join("\n"));
+    const [comment] = root.children;
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
     expect(comment.data).toEqual("a\nmultiline\ncomment");
     expect(comment.buffer).toBeTruthy();
 
@@ -77,10 +77,10 @@ describe("Comment", () => {
       "  multiline",
       "  comment"
     ];
-    const nodes = parse(src.join("\n"));
-    const [comment] = nodes;
+    const root = parse(src.join("\n"));
+    const [comment] = root.children;
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
     expect(comment.data).toEqual("a\nmultiline\ncomment");
     expect(comment.buffer).toBeFalsy();
 

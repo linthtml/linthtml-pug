@@ -15,10 +15,10 @@ describe("Doctype", () => {
   ].forEach(type => {
     test(`${type} doctype`, () => {
       const src = `doctype ${type}`;
-      const nodes = parse(src);
-      const [doctype] = nodes;
+      const root = parse(src);
+      const [doctype] = root.children;
 
-      expect(nodes).toHaveLength(1);
+      expect(root.children).toHaveLength(1);
       expect(doctype.value).toEqual(type);
 
       expect(doctype.loc).toEqual({
@@ -36,10 +36,10 @@ describe("Doctype", () => {
 
   test("Custom doctype", () => {
     const src = "doctype html PUBLIC \"-//W3C//DTD XHTML Basic 1.1//EN\"";
-    const nodes = parse(src);
-    const [doctype] = nodes;
+    const root = parse(src);
+    const [doctype] = root.children;
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
     expect(doctype.value).toEqual("html PUBLIC \"-//W3C//DTD XHTML Basic 1.1//EN\"");
 
     expect(doctype.loc).toEqual({

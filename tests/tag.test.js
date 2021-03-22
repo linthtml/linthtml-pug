@@ -4,11 +4,11 @@ const parse = require("../index");
 describe("Tags", () => {
   test("tag with no children", () => {
     const src = "div";
-    const nodes = parse(src);
+    const root = parse(src);
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
 
-    const [div] = nodes;
+    const [div] = root.children;
 
     expect(div.name).toEqual("div");
 
@@ -40,11 +40,11 @@ describe("Tags", () => {
 
   test("Implicite div", () => {
     const src = ".foo";
-    const nodes = parse(src);
+    const root = parse(src);
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
 
-    const [div] = nodes;
+    const [div] = root.children;
 
     expect(div.name).toEqual("div");
 
@@ -84,11 +84,11 @@ describe("Tags", () => {
       "  checked",
       ")"
     ].join("\n");
-    const nodes = parse(src);
+    const root = parse(src);
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
 
-    const [input] = nodes;
+    const [input] = root.children;
 
     expect(input.name).toEqual("input");
 
@@ -121,11 +121,11 @@ describe("Tags", () => {
 
   test("Tag with text child", () => {
     const src = "p Lorem ipsum dolor sit amet, consectetur adipiscing elit";
-    const nodes = parse(src);
+    const root = parse(src);
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
 
-    const [p] = nodes;
+    const [p] = root.children;
 
     expect(p.name).toEqual("p");
 
@@ -164,11 +164,11 @@ describe("Tags", () => {
       "  li"
     ].join("\n");
 
-    const nodes = parse(src);
+    const root = parse(src);
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
 
-    const [ul] = nodes;
+    const [ul] = root.children;
 
     expect(ul.name).toEqual("ul");
 
@@ -186,8 +186,7 @@ describe("Tags", () => {
         column: 3
       }
     });
-
-    expect(ul.children).toHaveLength(1);
+    expect(ul.children).toHaveLength(2); // new line + li
 
     expect(ul.loc).toEqual({
       start: {
@@ -208,11 +207,11 @@ describe("Tags", () => {
       "    li"
     ].join("\n");
 
-    const nodes = parse(src);
+    const root = parse(src);
 
-    expect(nodes).toHaveLength(1);
+    expect(root.children).toHaveLength(1);
 
-    const [div] = nodes;
+    const [div] = root.children;
 
     expect(div.name).toEqual("div");
 
@@ -231,9 +230,9 @@ describe("Tags", () => {
       }
     });
 
-    expect(div.children).toHaveLength(1);
-    expect(div.children[0].children).toHaveLength(1);
-    expect(div.children[0]).toHaveProperty("parent", div);
+    expect(div.children).toHaveLength(2); // new line + ul
+    expect(div.children[1].children).toHaveLength(2); // new line + li
+    expect(div.children[1]).toHaveProperty("parent", div);
 
     expect(div.loc).toEqual({
       start: {
