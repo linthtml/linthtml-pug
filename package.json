@@ -1,8 +1,14 @@
 {
   "name": "@linthtml/linthtml-pug",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "main": "index.js",
+  "keywords": [
+    "pug",
+    "parser",
+    "linthtml",
+    "linter"
+  ],
   "scripts": {
     "test": "jest",
     "lint": "eslint ."
