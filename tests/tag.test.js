@@ -119,6 +119,92 @@ describe("Tags", () => {
     });
   });
 
+  // At the moment parser only create text node if there're indentation
+  // test("Parser add new line nodes between nodes (sibling nodes)", () => {
+  //   const src = [
+  //     "div",
+  //     "div"
+  //   ].join("\n");
+  //   const root = parse(src);
+  //   expect(root.children).toHaveLength(3);
+  // });
+
+  test("Parser add new line nodes between nodes (parent and children nodes)", () => {
+    const src = [
+      "ul",
+      "  li"
+    ].join("\n");
+
+    const root = parse(src);
+
+    expect(root.children).toHaveLength(1);
+
+    const [ul] = root.children;
+
+    expect(ul.name).toEqual("ul");
+    expect(ul.children).toHaveLength(2); // new line + li
+    const [new_line] = ul.children;
+
+    expect(new_line.loc).toEqual({
+      start: {
+        line: 1,
+        column: 3
+      },
+      end: {
+        line: 2,
+        column: 3
+      }
+    });
+
+    expect(new_line.data).toEqual("\n  ");
+  });
+
+  test("Parser add new line nodes between nodes (parent and children nodes deep)", () => {
+    const src = [
+      "ul",
+      "  li",
+      "    span",
+      "  li"
+    ].join("\n");
+
+    const root = parse(src);
+
+    expect(root.children).toHaveLength(1);
+
+    const [ul] = root.children;
+
+    expect(ul.name).toEqual("ul");
+    expect(ul.children).toHaveLength(4); // 2 new line + 2 li
+    const [new_line, _, new_line_2] = ul.children;
+
+    expect(new_line.loc).toEqual({
+      start: {
+        line: 1,
+        column: 3
+      },
+      end: {
+        line: 2,
+        column: 3
+      }
+    });
+
+    expect(new_line.data).toEqual("\n  ");
+
+    expect(new_line_2.loc).toEqual({
+      start: {
+        line: 3,
+        column: 9
+      },
+      end: {
+        line: 4,
+        column: 3
+      }
+    });
+
+    expect(new_line_2.data).toEqual("\n  ");
+  });
+
+
   test("Tag with text child", () => {
     const src = "p Lorem ipsum dolor sit amet, consectetur adipiscing elit";
     const root = parse(src);
@@ -244,5 +330,39 @@ describe("Tags", () => {
         column: 7
       }
     });
+  });
+
+  test("Children tags are correctly linked together", () => {
+    const src = [
+      "ul",
+      "  li",
+      "  li"
+    ].join("\n");
+
+    const root = parse(src);
+
+    expect(root.children).toHaveLength(1);
+
+    const [ul] = root.children;
+
+    expect(ul.children).toHaveLength(4); // 2 new line + 2 li
+
+    const [new_line_1, li_1, new_line_2, li_2] = ul.children;
+
+    expect(new_line_1.parent).toEqual(ul);
+    expect(new_line_1.previousSibling).toBeNull();
+    expect(new_line_1.nextSibling).toEqual(li_1);
+
+    expect(li_1.parent).toEqual(ul);
+    expect(li_1.previousSibling).toEqual(new_line_1);
+    expect(li_1.nextSibling).toEqual(new_line_2);
+
+    expect(new_line_2.parent).toEqual(ul);
+    expect(new_line_2.previousSibling).toEqual(li_1);
+    expect(new_line_2.nextSibling).toEqual(li_2);
+
+    expect(li_2.parent).toEqual(ul);
+    expect(li_2.previousSibling).toEqual(new_line_2);
+    expect(li_2.nextSibling).toBeNull();
   });
 });
