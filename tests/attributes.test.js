@@ -1324,7 +1324,6 @@ describe("Attributes extractions", function() {
       });
     });
   });
-
   describe("Complex examples", () => {
     test("Same attribute can be defnined multiple times", () => {
       const src = "a.bang(class=classes class=['bing'])";
@@ -1340,5 +1339,36 @@ describe("Attributes extractions", function() {
   });
 
   // describe("&attributes", () => {});
+
+  test("attributes of interpolated tags", () => {
+    const src = "p #[strong(class='my-class') bar]";
+    const root = parse(src);
+
+    expect(root.children).toHaveLength(1);
+
+    const [p] = root.children;
+    const [strong] = p.children;
+    const { attributes } = strong;
+
+    expect(attributes).toHaveLength(1);
+
+    const [_class] = attributes;
+
+    expect(_class.name.chars).toEqual("class");
+    expect(_class.value.chars).toEqual("'my-class'");
+    expect(_class.loc).toEqual({
+      start: {
+        line: 1,
+        column: 12
+      },
+      end: {
+        line: 1,
+        column: 28
+      }
+    });
+  });
 });
+
 // a.bang(class=classes class=['bing'])
+
+// p foo #[strong(class="my-class") bar]

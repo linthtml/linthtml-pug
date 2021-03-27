@@ -175,7 +175,7 @@ describe("Tags", () => {
 
     expect(ul.name).toEqual("ul");
     expect(ul.children).toHaveLength(4); // 2 new line + 2 li
-    const [new_line, _, new_line_2] = ul.children;
+    const [new_line, , new_line_2] = ul.children;
 
     expect(new_line.loc).toEqual({
       start: {
@@ -203,7 +203,6 @@ describe("Tags", () => {
 
     expect(new_line_2.data).toEqual("\n  ");
   });
-
 
   test("Tag with text child", () => {
     const src = "p Lorem ipsum dolor sit amet, consectetur adipiscing elit";
@@ -365,4 +364,161 @@ describe("Tags", () => {
     expect(li_2.previousSibling).toEqual(new_line_2);
     expect(li_2.nextSibling).toBeNull();
   });
+
+  // should extract interpolation data too? ("#[" and "]")
+  test("tag interpolation (single line)", () => {
+    const src = "p foo #[strong bar]";
+    const root = parse(src);
+
+    expect(root.children).toHaveLength(1);
+
+    const [p] = root.children;
+
+    expect(p.children).toHaveLength(2); // Text "foo " and strong node
+
+    const [text, strong] = p.children;
+
+    expect(text.type).toEqual("text");
+    expect(text.data).toEqual("foo ");
+    expect(text.loc).toEqual({
+      start: {
+        line: 1,
+        column: 3
+      },
+      end: {
+        line: 1,
+        column: 7
+      }
+    });
+
+    expect(strong.type).toEqual("tag");
+    expect(strong.name).toEqual("strong");
+    expect(strong.children).toHaveLength(1);
+    expect(strong.loc).toEqual({
+      start: {
+        line: 1,
+        column: 9
+      },
+      end: {
+        line: 1,
+        column: 19
+      }
+    });
+  });
+
+  test("tag interpolation (multi lines)", () => {
+    const src = [
+      "p.",
+      "  This is a very long and boring paragraph that spans multiple lines. Suddenly there is a #[strong strongly worded phrase] that cannot be",
+      "  #[em ignored]."
+    ].join("\n");
+
+    const root = parse(src);
+
+    expect(root.children).toHaveLength(1);
+
+    const [p] = root.children;
+
+    // 2 new line, 3 text nodes ("." is a text node) + 2 child (strong and em)
+    expect(p.children).toHaveLength(7);
+
+    const [new_line_1, text_1, strong, text_2, new_line_2, em, text_3] = p.children;
+
+    expect(new_line_1.data).toEqual("\n  ");
+    expect(new_line_1.loc).toEqual({
+      start: {
+        line: 1,
+        column: 3
+      },
+      end: {
+        line: 2,
+        column: 3
+      }
+    });
+
+    expect(text_1.data).toEqual("This is a very long and boring paragraph that spans multiple lines. Suddenly there is a ");
+    expect(text_1.loc).toEqual({
+      start: {
+        line: 2,
+        column: 3
+      },
+      end: {
+        line: 2,
+        column: 91
+      }
+    });
+
+    expect(strong.type).toEqual("tag");
+    expect(strong.name).toEqual("strong");
+    expect(strong.children).toHaveLength(1);
+    expect(strong.loc).toEqual({
+      start: {
+        line: 2,
+        column: 93
+      },
+      end: {
+        line: 2,
+        column: 122
+      }
+    });
+
+    expect(text_2.data).toEqual(" that cannot be");
+    expect(text_2.loc).toEqual({
+      start: {
+        line: 2,
+        column: 123
+      },
+      end: {
+        line: 2,
+        column: 138
+      }
+    });
+
+    expect(new_line_2.data).toEqual("\n  ");
+    expect(new_line_2.loc).toEqual({
+      start: {
+        line: 2,
+        column: 138
+      },
+      end: {
+        line: 3,
+        column: 3
+      }
+    });
+
+    expect(em.type).toEqual("tag");
+    expect(em.name).toEqual("em");
+    expect(em.children).toHaveLength(1);
+    expect(em.loc).toEqual({
+      start: {
+        line: 3,
+        column: 5
+      },
+      end: {
+        line: 3,
+        column: 15
+      }
+    });
+    expect(text_3.data).toEqual(".");
+    expect(text_3.loc).toEqual({
+      start: {
+        line: 3,
+        column: 16
+      },
+      end: {
+        line: 3,
+        column: 17
+      }
+    });
+  });
 });
+
+// p.
+//   This is a very long and boring paragraph that spans multiple lines.
+//   Suddenly there is a #[strong strongly worded phrase] that cannot be
+//   #[em ignored].
+// p.
+//   And here's an example of an interpolated tag with an attribute:
+//   #[q(lang="es") ¡Hola Mundo!]
+// p foo #[strong bar]
+// p foo #[strong(class="my-class") bar]
