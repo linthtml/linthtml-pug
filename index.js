@@ -2,7 +2,7 @@ const lexer = require("pug-lexer");
 const parser = require("pug-parser");
 const walk = require("pug-walk");
 
-const { get_lines_index } = require("./lib/utils");
+const { get_lines_index, get_node_end_position } = require("./lib/utils");
 
 const to_tag_node = require("./lib/convertors/tag");
 const to_attribute_node = require("./lib/convertors/attribute");
@@ -31,18 +31,15 @@ module.exports = function parse(code) {
     };
 
     if (node.type === "block") {
+      node.children = node.nodes;
+      delete node.nodes;
       node.loc = {
         start: {
           line: node.line,
-          column: 0
+          column: node.column
         },
-        end: {
-          line: node.line,
-          column: 0
-        }
+        end: get_node_end_position(node)
       };
-      node.children = node.nodes;
-      delete node.nodes;
     }
 
     if (node.attrs) {
