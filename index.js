@@ -9,6 +9,7 @@ const to_attribute_node = require("./lib/convertors/attribute");
 const to_doctype_node = require("./lib/convertors/doctype");
 const to_text_node = require("./lib/convertors/text");
 const to_comment_node = require("./lib/convertors/comment");
+const to_code_node = require("./lib/convertors/code");
 
 module.exports = function parse(code) {
   const lines = get_lines_index(code);
@@ -64,6 +65,10 @@ module.exports = function parse(code) {
 
     if (node.type === "comment" || node.type === "blockcomment") {
       node = to_comment_node(node, lines);
+    }
+
+    if (node.type === "code") {
+      node = to_code_node(node, lines);
     }
 
     return replace(node);
