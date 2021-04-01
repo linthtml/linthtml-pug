@@ -12,6 +12,7 @@ const to_doctype_node = require("./lib/convertors/doctype");
 const to_text_node = require("./lib/convertors/text");
 const to_comment_node = require("./lib/convertors/comment");
 const to_code_node = require("./lib/convertors/code");
+const to_condition_node = require("./lib/convertors/conditional");
 const to_block_node = require("./lib/convertors/block");
 
 module.exports = function parse(code) {
@@ -61,6 +62,10 @@ module.exports = function parse(code) {
 
     if (node.type === "code") {
       node = to_code_node(node, lines);
+    }
+
+    if (node.type === "conditional") {
+      node = to_condition_node(node, lines);
     }
 
     return replace(node);
