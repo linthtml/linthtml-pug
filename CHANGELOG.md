@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.4.0
+
+### Feature - Conditions conversion
+
+Now linthtml-pug convert conditions (`if`, `else if` ,`else`) in a format compatible with LintHTML but with some limitations.
+At the moment LintHTML won't be able to access nodes inside the conditions this will require some evolutions on LintHTML sides.
+
 ## v0.3.0
 
 ### Feature - Return root node
