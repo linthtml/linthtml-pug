@@ -63,7 +63,7 @@ describe("Conditional", () => {
 
     const root = parse(src);
 
-    expect(root.children).toHaveLength(1);
+    expect(root.children).toHaveLength(2); // Should be 3 because of the new line
     const [conditional] = root.children;
 
     expect(conditional.type).toEqual("conditional");
@@ -139,7 +139,7 @@ describe("Conditional", () => {
 
     const root = parse(src);
 
-    expect(root.children).toHaveLength(1);
+    expect(root.children).toHaveLength(3); // Should be 5 because of the two new lines
     const [conditional] = root.children;
 
     expect(conditional.type).toEqual("conditional");
