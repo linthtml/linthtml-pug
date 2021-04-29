@@ -96,11 +96,11 @@ describe("Conditional", () => {
     expect(p.name).toEqual("p");
 
     expect(alternate.type).toEqual("block");
-    expect(alternate.parent).toEqual(conditional);
+    expect(alternate.parent).toEqual(root);
     expect(alternate.loc).toEqual({
       start: {
-        line: 4, // should be 3
-        column: 3 // should be 1
+        line: 3,
+        column: 1
       },
       end: {
         line: 4,
@@ -167,10 +167,10 @@ describe("Conditional", () => {
     expect(consequent.children).toHaveLength(1);
 
     expect(else_if.type).toEqual("conditional");
-    expect(else_if.parent).toEqual(conditional);
+    expect(else_if.parent).toEqual(root);
     expect(else_if.loc).toEqual({
       start: {
-        line: 3, // should be 3
+        line: 3,
         column: 1
       },
       end: {
@@ -192,11 +192,11 @@ describe("Conditional", () => {
     const _else = else_if.alternate;
 
     expect(_else.type).toEqual("block");
-    expect(_else.parent).toEqual(else_if);
+    expect(_else.parent).toEqual(root);
     expect(_else.loc).toEqual({
       start: {
-        line: 6, // should be 5
-        column: 3 // should be 1
+        line: 5,
+        column: 1
       },
       end: {
         line: 6,
