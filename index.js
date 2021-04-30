@@ -3,7 +3,9 @@ const parser = require("pug-parser");
 const walk = require("pug-walk");
 
 const {
-  get_lines_index
+  get_lines_index,
+  cleanup_node_children,
+  link_nodes
 } = require("./lib/utils");
 
 const to_tag_node = require("./lib/convertors/tag");
@@ -71,6 +73,8 @@ module.exports = function parse(code) {
     return replace(node);
   });
 
+  new_ast.children = cleanup_node_children(new_ast, lines);
+  new_ast.children = link_nodes(new_ast.children, new_ast);
   new_ast.type = "root";
   return new_ast;
 };
