@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.0
+
+### Feature - Improve conditions conversion
+
+Now LintHTML will be able to access nodes inside conditions.
+
 ## v0.4.0
 
 ### Feature - Conditions conversion
