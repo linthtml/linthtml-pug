@@ -108,8 +108,8 @@ describe("Conditional", () => {
       }
     });
 
-    expect(alternate.children).toHaveLength(1);
-    const [p_else] = alternate.children;
+    expect(alternate.children).toHaveLength(2);
+    const [, p_else] = alternate.children;
 
     // No need to tests all properties
     expect(p_else.type).toEqual("tag");
@@ -213,6 +213,36 @@ describe("Conditional", () => {
         line: 6,
         column: 11
       }
+    });
+  });
+
+  test("nested conditional", () => {
+    const src = [
+      "div",
+      "  if condition",
+      "    p ok",
+      "  else",
+      "    p not ok"
+    ].join("\n");
+
+    const root = parse(src);
+
+    expect(root.children).toHaveLength(1);
+    const [div] = root.children;
+
+    expect(div.children).toHaveLength(4);
+
+    const [, conditional, , alternate] = div.children;
+    expect(conditional.parent).toEqual(div);
+    expect(conditional.children).toHaveLength(2);
+    conditional.children.forEach(child => {
+      expect(child.parent).toEqual(conditional);
+    });
+
+    expect(alternate.parent).toEqual(div);
+    expect(alternate.children).toHaveLength(2);
+    alternate.children.forEach(child => {
+      expect(child.parent).toEqual(alternate);
     });
   });
 });
