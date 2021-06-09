@@ -1,7 +1,11 @@
 {
   "name": "@linthtml/linthtml-pug",
   "version": "0.5.0",
-  "description": "",
+  "description": "A PUG parser for LintHTML",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/linthtml/linthtml-pug.git"
+  },
   "main": "index.js",
   "keywords": [
     "pug",
@@ -13,7 +17,7 @@
     "test": "jest",
     "lint": "eslint ."
   },
-  "author": "",
+  "author": "Benjamin JEGARD <kamikillerto@gmail.com> (https://github.com/KamiKillertO)",
   "license": "ISC",
   "dependencies": {
     "pug-lexer": "^5.0.0",
@@ -27,5 +31,12 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "jest": "^26.6.3"
-  }
+  },
+  "contributors": [
+    "Benjamin JEGARD <kamikillerto@gmail.com> (https://github.com/KamiKillertO)"
+  ],
+  "bugs": {
+    "url": "https://github.com/linthtml/linthtml-pug/issues"
+  },
+  "homepage": "https://github.com/linthtml/linthtml-pug#readme"
 }
