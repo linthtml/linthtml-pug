@@ -1,7 +1,7 @@
 const { describe, expect, test } = require("@jest/globals");
 const parse = require("../index");
 
-describe("Attributes extractions", function() {
+describe("Attributes extraction", function() {
   describe("Simple attributes", () => {
     test("", () => {
       const src = "a(href='//google.com') Google";
@@ -243,7 +243,7 @@ describe("Attributes extractions", function() {
     });
   });
 
-  describe("Multipleline attributes", () => {
+  describe("Multiline attributes", () => {
     test("One attribute per lines", () => {
       const src = [
         "input(",
@@ -439,7 +439,7 @@ describe("Attributes extractions", function() {
   });
 
   describe("Quoted attributes", () => {
-    test("atribute name with parentheses", () => {
+    test("Atribute name with parentheses", () => {
       const src = "div(class='div-class', (click)='play()')";
       const root = parse(src);
       const { attributes } = root.children[0];
@@ -487,7 +487,7 @@ describe("Attributes extractions", function() {
       });
     });
 
-    test("atribute name with quotes", () => {
+    test("Atribute name with quotes", () => {
       const src = "div(class='div-class' '(click)'='play()')";
       const root = parse(src);
       const { attributes } = root.children[0];
@@ -535,7 +535,6 @@ describe("Attributes extractions", function() {
       });
     });
   });
-
   describe("Attribute interpolation", () => {
     test("", () => {
       const src = "a(href='/' + url) Link";
@@ -774,7 +773,7 @@ describe("Attributes extractions", function() {
   });
 
   describe("Escaped/Unescaped Attributes", () => {
-    test("attribute value are escaped by default", () => {
+    test("Attribute value are escaped by default", () => {
       const src = "div(escaped='<code>')";
       const root = parse(src);
       const { attributes } = root.children[0];
@@ -787,7 +786,7 @@ describe("Attributes extractions", function() {
 
       expect(escaped.value.escaped).toBeTruthy();
     });
-    test("attribute value are escaped by default", () => {
+    test("Attribute value are escaped by default", () => {
       const src = "div(escaped!='<code>')";
       const root = parse(src);
       const { attributes } = root.children[0];
@@ -1106,8 +1105,8 @@ describe("Attributes extractions", function() {
     });
   });
 
-  describe("array and object values", () => {
-    test("object values", () => {
+  describe("Attributes with array or object values", () => {
+    test("Object values", () => {
       const src = "a(style={color: 'red', background: 'green'})";
       const root = parse(src);
       const { attributes } = root.children[0];
@@ -1166,7 +1165,7 @@ describe("Attributes extractions", function() {
       });
     });
 
-    test("array values", () => {
+    test("Array values", () => {
       const src = "a(class=['bling', 'foo'])";
       const root = parse(src);
       const { attributes } = root.children[0];
@@ -1226,7 +1225,7 @@ describe("Attributes extractions", function() {
     });
   });
 
-  describe("literal forms", () => {
+  describe("Literal forms", () => {
     test("id", () => {
       const src = "div#foo";
       const root = parse(src);
@@ -1325,7 +1324,7 @@ describe("Attributes extractions", function() {
     });
   });
   describe("Complex examples", () => {
-    test("Same attribute can be defnined multiple times", () => {
+    test("Same attribute can be defined multiple times", () => {
       const src = "a.bang(class=classes class=['bing'])";
       const root = parse(src);
       const { attributes } = root.children[0];
@@ -1339,8 +1338,7 @@ describe("Attributes extractions", function() {
   });
 
   // describe("&attributes", () => {});
-
-  test("attributes of interpolated tags", () => {
+  test("Attributes of interpolated tags", () => {
     const src = "p #[strong(class='my-class') bar]";
     const root = parse(src);
 
