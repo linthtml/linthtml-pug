@@ -20,7 +20,7 @@
   "author": "Benjamin JEGARD <kamikillerto@gmail.com> (https://github.com/KamiKillertO)",
   "license": "ISC",
   "dependencies": {
-    "pug-lexer": "^5.0.0",
+    "pug-lexer": "^5.0.1",
     "pug-parser": "^6.0.0",
     "pug-walk": "^2.0.0"
   },
