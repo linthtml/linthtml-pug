@@ -1,6 +1,6 @@
 {
   "name": "@linthtml/linthtml-pug",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A PUG parser for LintHTML",
   "repository": {
     "type": "git",

@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6.0
+
+### Feature - Case conversion
+
+Now linthtml-pug convert [PUG](https://pugjs.org/language/conditionals.html) case statement.
+
 ## v0.5.0
 
 ### Feature - Improve conditions conversion
