@@ -16,6 +16,8 @@ const to_comment_node = require("./lib/convertors/comment");
 const to_code_node = require("./lib/convertors/code");
 const to_condition_node = require("./lib/convertors/conditional");
 const to_block_node = require("./lib/convertors/block");
+const to_case_node = require("./lib/convertors/case");
+const to_when_node = require("./lib/convertors/when");
 
 module.exports = function parse(code) {
   const lines = get_lines_index(code);
@@ -68,6 +70,14 @@ module.exports = function parse(code) {
 
     if (node.type === "conditional") {
       node = to_condition_node(node, lines);
+    }
+
+    if (node.type === "case") {
+      node = to_case_node(node, lines);
+    }
+
+    if (node.type === "when") {
+      node = to_when_node(node, lines);
     }
 
     return replace(node);
